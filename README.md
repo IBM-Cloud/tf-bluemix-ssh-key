@@ -4,8 +4,6 @@ A Terraform configuration for creating an [IBM Cloud SSH Key](http://ibmcloudter
 This is not a module, it is a terraform configuration that can be cloned or forked to be used and/or modified with the IBM Cloud terraform binary locally, or it can be used with the [IBM Cloud Schematics](https://github.com/IBM-Bluemix/schematics-onboarding) service.
 
 # Usage with Terraform Binary on your local workstation
-Variables can be defined or overwritten using `terraform.tfvars`. Currently `public_key` is being defined and overwritten (you should ideally supply your own `public_key` material).
-
 You will need to [Setup up IBM Cloud provider credentials](#setting-up-provider-credentials), please see the section titled "[Setting up Provider Credentials](#setting-up-provider-credentials)" for help.
 
 Additionally you will need the IBM Terraform binary. You can obtain this binary by visiting [github.com/IBM-Bluemix/schematics-onboarding](https://github.com/IBM-Bluemix/schematics-onboarding#ibm-bluemix-schematics-service-on-boarding).
