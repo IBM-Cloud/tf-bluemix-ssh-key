@@ -1,12 +1,14 @@
 # Terraform Bluemix SSH Key
-A Terraform configuration for creating an [IBM Cloud SSH Key](http://ibmcloudterraformdocs.chriskelner.com/docs/providers/ibmcloud/r/infra_ssh_key.html) (`ibmcloud_infra_ssh_key`). This will create a SSH key in the specified IBM cloud account.
+A Terraform configuration for creating an [IBM Cloud SSH Key](https://ibm-bluemix.github.io/tf-ibm-docs/tf-v0.9.3-ibm-provider-v0.2.1/r/infra_ssh_key.html) (`ibmcloud_infra_ssh_key`). This will create a SSH key in the specified IBM cloud account.
 
-This is not a module, it is a terraform configuration that can be cloned or forked to be used and/or modified with the IBM Cloud terraform binary locally, or it can be used with the [IBM Cloud Schematics](https://github.com/IBM-Bluemix/schematics-onboarding) service.
+**This configuration template is written for IBM Cloud Provider version `tf-v0.9.3-ibm-provider-v0.2.1`**
+
+This is not a module, it is a terraform configuration that can be cloned or forked to be used and/or modified with the IBM Cloud terraform binary locally, or it can be used with the [IBM Cloud Schematics](https://console.ng.bluemix.net/docs/services/schematics/index.html#gettingstarted) service.
 
 # Usage with Terraform Binary on your local workstation
 You will need to [Setup up IBM Cloud provider credentials](#setting-up-provider-credentials), please see the section titled "[Setting up Provider Credentials](#setting-up-provider-credentials)" for help.
 
-Additionally you will need the IBM Terraform binary. You can obtain this binary by visiting [github.com/IBM-Bluemix/schematics-onboarding](https://github.com/IBM-Bluemix/schematics-onboarding#ibm-bluemix-schematics-service-on-boarding).
+Additionally you will need the [Terraform binary](https://www.terraform.io/intro/getting-started/install.html) and the [IBM Cloud Provider Plugin](https://github.com/IBM-Bluemix/terraform/releases). You can obtain this binary by visiting [github.com/IBM-Bluemix/schematics-onboarding](https://github.com/IBM-Bluemix/schematics-onboarding#ibm-bluemix-schematics-service-on-boarding) and follow the instructions at [https://ibm-bluemix.github.io/tf-ibm-docs#developing-locally](https://ibm-bluemix.github.io/tf-ibm-docs/tf-v0.9.3-ibm-provider-v0.2.1/#developing-locally).
 
 To run this project execute the following steps:
 
@@ -64,78 +66,19 @@ To setup the IBM Cloud provider to work with this example there are a few option
 ## Environment Variables using IBMid credentials
 You'll need to export the following environment variables:
 
-- `TF_VAR_ibmid` - your IBMid login
-- `TF_VAR_ibmidpw` - your IBMid password
+- `TF_VAR_bxapikey` - your Bluemix API Key
+- `TF_VAR_slusername` - your Softlayer username
+- `TF_VAR_slapikey` - your Softlayer username
 - `TF_VAR_slaccountnum` - the target softlayer account number (while optional, it is REQUIRED if you have multiple accounts associated with your ID; otherwise you will recieve an error similar to `* ibmcloud_infra_virtual_guest.debian_small_virtual_guest: Error ordering virtual guest: SoftLayer_Exception_Public: You do not have permission to verify server orders. (HTTP 500)`)
 
 On OS X this is achieved by entering the following into your terminal, replacing the `<value>` characters with the actual values (remove the `<>`:
 
-- `export TF_VAR_ibmid=<value>`
-- `export TF_VAR_ibmidpw=<value>`
+- `export TF_VAR_bxapikey=<value>`
+- `export TF_VAR_slusername=<value>`
+- `export TF_VAR_slapikey=<value>`
 - `export TF_VAR_slaccountnum=<value>`
 
 However this is only temporary to your current terminal session, to make this permanent add these export statements to your `~/.profile`, `~/.bashrc`, `~/.bash_profile` or preferred terminal configuration file. If you go this route without running `export ...` in your command prompt, you'll need to source your terminal configuration file from the command prompt like so: `source ~/.bashrc` (or your preferred config file).
-
-### IBMid Credentials
-If you happen to get the error `provider.ibmcloud: Client request to fetch IMS token failed with response code 401` you are likely passing the wrong credentials for IBMid (this is different than IBM w3id).
-
-One way to be certain if your credentials are good or not is to test them with the `test-credentials.sh` script in this repo.  Simply execute the following:
-
-```
-bash test-credentials.sh <ibmid> <password> <account-number>
-```
-
-Replacing `<ibmid>`, `<password>`, and `<account-number>` for real values.  Where `<account-number>` is your Softlayer account number, which can found at https://control.bluemix.net/account/user/profile under the "API Access Information" section prepended to your "API Username" (or in the upper right it is displayed as part of your account information in parenthesis).
-
-Alternatively you can run the following command:
-
-```bash
-curl -s -u 'bx:bx' -k -X POST --header \
-'Content-Type: application/x-www-form-urlencoded' \
---header 'Accept: application/json' -d \ "grant_type=password&response_type=cloud_iam,ims_portal \
-&username=${1}&password=${2}&ims_account=${3}" https://iam.ng.bluemix.net/oidc/token
-```
-
-Replacing `${1}` with your IBMid, `${2}` with your IBMid password, and `${3}` with you Softlayer account number.
-
-When you run either of the above methods, a successful response (meaning the credentials are good) looks like (trimmed for brevity):
-
-```json
-{
-   "access_token":"eyJraWQiOiIyMDE…a72w",
-   "refresh_token":"BTJ8…KLaBJ",
-   "ims_token":"e56350224c...1d3d3",
-   "ims_user_id":6525897,
-   "token_type":"Bearer",
-   "expires_in":3600,
-   "expiration":1489623909
-}
-```
-
-And if your credentials are wrong, you will get a different response:
-
-```json
-{
-   "errorCode":"BXNIM0602E",
-   "errorMessage":"The credentials you provided are incorrect",
-   "errorDetails":"The credentials you entered for the user 'ckelner@us.ibm.com' are incorrect",
-   "context":{
-      "requestId":"2512082279",
-      "requestType":"incoming.OIDC_Token",
-      "startTime":"15.03.2017 22:50:39:925 UTC",
-      "endTime":"15.03.2017 22:50:40:224 UTC",
-      "elapsedTime":"299",
-      "instanceId":"tokenservice/1",
-      "host":"localhost",
-      "threadId":"8791",
-      "clientIp":"73.82.211.28",
-      "userAgent":"curl/7.43.0",
-      "locale":"en_US"
-   }
-}
-```
-
-If you run into this error, you should reset your IBMid password by navigating to https://www.ibm.com/account/profile/us and clicking on "Reset password"
 
 # Authors
 [Chris Kelner](http://github.com/ckelner)
