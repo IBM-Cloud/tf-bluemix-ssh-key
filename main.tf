@@ -1,10 +1,17 @@
 ##############################################################################
+# Require terraform 0.9.3 or greater
+##############################################################################
+terraform {
+  required_version = ">= 0.9.3"
+}
+##############################################################################
 # IBM Cloud Provider
 ##############################################################################
 # See the README for details on ways to supply these values
 provider "ibmcloud" {
-  ibmid                    = "${var.ibmid}"
-  ibmid_password           = "${var.ibmidpw}"
+  bluemix_api_key = "${var.bxapikey}"
+  softlayer_username = "${var.slusername}"
+  softlayer_api_key = "${var.slapikey}"
   softlayer_account_number = "${var.slaccountnum}"
 }
 
@@ -21,15 +28,14 @@ resource "ibmcloud_infra_ssh_key" "ssh_key" {
 ##############################################################################
 # Variables
 ##############################################################################
-# Required for the IBM Cloud provider
-variable ibmid {
-  type = "string"
-  description = "Your IBM-ID."
+variable bxapikey {
+  description = "Your Bluemix API Key."
 }
-# Required for the IBM Cloud provider
-variable ibmidpw {
-  type = "string"
-  description = "The password for your IBM-ID."
+variable slusername {
+  description = "Your Softlayer username."
+}
+variable slapikey {
+  description = "Your Softlayer API Key."
 }
 # Required to target the correct SL account
 variable slaccountnum {
