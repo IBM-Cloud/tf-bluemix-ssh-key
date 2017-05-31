@@ -1,16 +1,16 @@
 # Terraform Bluemix SSH Key
-A Terraform configuration for creating an [IBM Cloud SSH Key](https://ibm-bluemix.github.io/tf-ibm-docs/tf-v0.9.3-ibm-provider-v0.2.1/r/infra_ssh_key.html) (`ibmcloud_infra_ssh_key`). This will create a SSH key in the specified IBM cloud account.
+A Terraform configuration for creating an [IBM Cloud SSH Key](https://ibm-bluemix.github.io/tf-ibm-docs//r/infra_ssh_key.html) (`ibmcloud_infra_ssh_key`). This will create a SSH key in the specified IBM cloud account. This is not a module, it is a terraform configuration that should be cloned or forked to be used.
 
 **This configuration template is written for IBM Cloud Provider version `tf-v0.9.3-ibm-provider-v0.2.1`**
 
-This is not a module, it is a terraform configuration that can be cloned or forked to be used and/or modified with the IBM Cloud terraform binary locally, or it can be used with the [IBM Cloud Schematics](https://console.ng.bluemix.net/docs/services/schematics/index.html#gettingstarted) service.
+# Usage with IBM Cloud Schematics
+
+Follow the instructions on the [Getting Started with IBM Cloud Schematics](https://console.ng.bluemix.net/docs/services/schematics/index.html#gettingstarted) documentation page.
 
 # Usage with Terraform Binary on your local workstation
-You will need to [Setup up IBM Cloud provider credentials](#setting-up-provider-credentials), please see the section titled "[Setting up Provider Credentials](#setting-up-provider-credentials)" for help.
+You will need to [setup up IBM Cloud provider credentials](#setting-up-provider-credentials) on your local machine. Then you will need the [Terraform binary](https://www.terraform.io/intro/getting-started/install.html) and the [IBM Cloud Provider Plugin](https://github.com/IBM-Bluemix/terraform/releases). Then follow the instructions at [https://ibm-bluemix.github.io/tf-ibm-docs#developing-locally](https://ibm-bluemix.github.io/tf-ibm-docs/tf-v0.9.3-ibm-provider-v0.2.1/#developing-locally).
 
-Additionally you will need the [Terraform binary](https://www.terraform.io/intro/getting-started/install.html) and the [IBM Cloud Provider Plugin](https://github.com/IBM-Bluemix/terraform/releases). You can obtain this binary by visiting [github.com/IBM-Bluemix/schematics-onboarding](https://github.com/IBM-Bluemix/schematics-onboarding#ibm-bluemix-schematics-service-on-boarding) and follow the instructions at [https://ibm-bluemix.github.io/tf-ibm-docs#developing-locally](https://ibm-bluemix.github.io/tf-ibm-docs/tf-v0.9.3-ibm-provider-v0.2.1/#developing-locally).
-
-To run this project execute the following steps:
+To run this project locally execute the following steps:
 
 - Supply `datacenter`, `public_key`, `key_label`, and `key_note` variable values in `terraform.tfvars`, see https://www.terraform.io/intro/getting-started/variables.html#from-a-file for instructions.
   - Alternatively these values can be supplied via the command line or environment variables, see https://www.terraform.io/intro/getting-started/variables.html.
@@ -69,14 +69,12 @@ You'll need to export the following environment variables:
 - `TF_VAR_bxapikey` - your Bluemix API Key
 - `TF_VAR_slusername` - your Softlayer username
 - `TF_VAR_slapikey` - your Softlayer username
-- `TF_VAR_slaccountnum` - the target softlayer account number (while optional, it is REQUIRED if you have multiple accounts associated with your ID; otherwise you will recieve an error similar to `* ibmcloud_infra_virtual_guest.debian_small_virtual_guest: Error ordering virtual guest: SoftLayer_Exception_Public: You do not have permission to verify server orders. (HTTP 500)`)
 
 On OS X this is achieved by entering the following into your terminal, replacing the `<value>` characters with the actual values (remove the `<>`:
 
 - `export TF_VAR_bxapikey=<value>`
 - `export TF_VAR_slusername=<value>`
 - `export TF_VAR_slapikey=<value>`
-- `export TF_VAR_slaccountnum=<value>`
 
 However this is only temporary to your current terminal session, to make this permanent add these export statements to your `~/.profile`, `~/.bashrc`, `~/.bash_profile` or preferred terminal configuration file. If you go this route without running `export ...` in your command prompt, you'll need to source your terminal configuration file from the command prompt like so: `source ~/.bashrc` (or your preferred config file).
 
