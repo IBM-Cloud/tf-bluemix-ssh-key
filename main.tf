@@ -12,7 +12,6 @@ provider "ibmcloud" {
   bluemix_api_key = "${var.bxapikey}"
   softlayer_username = "${var.slusername}"
   softlayer_api_key = "${var.slapikey}"
-  softlayer_account_number = "${var.slaccountnum}"
 }
 
 ##############################################################################
@@ -36,11 +35,6 @@ variable slusername {
 }
 variable slapikey {
   description = "Your Softlayer API Key."
-}
-# Required to target the correct SL account
-variable slaccountnum {
-  type = "string"
-  description = "Your Softlayer account number."
 }
 variable datacenter {
   description = "The datacenter to create resources in."
